@@ -12,8 +12,10 @@ const FormModal = ({ formVisible, close, handleAdd }) => {
 		handleAdd(inputs)
 	}
 
-	const initialState = { title: '', type: '', description: '', amount: 0, date: new Date() }
+	const initialState = { title: '', category: '', type: '', description: '', amount: 0, date: new Date() }
 	const { subscribe, inputs, submit } = useForm(initialState, onSubmit)
+
+	const allowAdd = inputs.title && inputs.type && inputs.category
 
 	return(
 		<Modal
@@ -23,15 +25,15 @@ const FormModal = ({ formVisible, close, handleAdd }) => {
 			<View style={styles.container}>
 				<View style={styles.formContainer}>
 					<TextInput
-						placeholder="Title"
+						placeholder="Title (*)"
 						value={inputs.title}
 						onChangeText={subscribe('title')}
 					/>
 					<View style={{ width: '100%'}}>
 						<ModalSelector
-							initValue="Type"
-							data={[{
-								key: 'Outcome', label: 'Outcome'},
+							initValue="Type (*)"
+							data={[
+								{ key: 'Outcome', label: 'Outcome'},
 								{ key: 'Income', label: 'Income'}
 							]}
 							onChange={subscribe('type')}
@@ -40,7 +42,24 @@ const FormModal = ({ formVisible, close, handleAdd }) => {
 								<TextInput
 									value={inputs.type.key}
 									onChangeText={subscribe('type')}
-									placeholder="Type"
+									placeholder="Type (*)"
+								/>
+							</View>
+						</ModalSelector>
+						<ModalSelector
+							initValue="Category (*)"
+							data={[
+								{ key: 'Freelance', label: 'Freelance'},
+								{ key: 'Fees', label: 'Fees'},
+								{ key: 'Taxes', label: 'Taxes'},
+							]}
+							onChange={subscribe('category')}
+						>
+							<View style={styles.selectorWrapper}>
+								<TextInput
+									value={inputs.category.key}
+									onChangeText={subscribe('category')}
+									placeholder="Category (*)"
 								/>
 							</View>
 						</ModalSelector>
@@ -70,7 +89,7 @@ const FormModal = ({ formVisible, close, handleAdd }) => {
 				</View>
 				<View style={styles.buttons}>
 					<Button title="Cancel" onPress={close} />
-					<Button title="Save" onPress={submit} />
+					<Button title="Save" onPress={submit}  disabled={!allowAdd} />
 				</View>
 			</View>
 		</Modal>

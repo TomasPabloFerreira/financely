@@ -7,7 +7,7 @@ const TableRow = ({ columns, header }) => {
 			{columns.map((x, i) => (
 				<View style={styles.ceil} key={i}>
 					<Text style={header ? styles.headerText : {} }>
-						{x}
+						{ typeof(x) == 'object' ? new Date(x).toLocaleDateString() : x.key || x}
 					</Text>
 				</View>
 			))}

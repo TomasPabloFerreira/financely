@@ -8,7 +8,10 @@ const useForm = (initialState, onSubmit) => {
 		setInputs({ ...inputs, [fieldName]: value })
 	}
 
-	const submit = () => { onSubmit(inputs) }
+	const submit = () => {
+		onSubmit(inputs);
+		setInputs(initialState)
+	}
 
 	return { subscribe, inputs, submit  }
 }

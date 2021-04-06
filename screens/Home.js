@@ -19,7 +19,7 @@ const HomeScreen = () => {
 	)
 
 	const balance = rows.reduce(
-		(acc, x) => acc + (x.type === 'Income' ? x.amount : (-x.amount) ),
+		(acc, x) => acc + (x.type.key === 'Income' ? x.amount : (-x.amount) ),
 		0
 	)
 

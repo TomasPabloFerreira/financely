@@ -14,6 +14,10 @@ const useCRUD = (serviceGet, serviceAdd, serviceEdit, serviceRemove) => {
 	const handleAdd = async(item) => {
 		setLoading(true)
 		const result = await serviceAdd(item)
+		const id = Math.random()
+		console.log('new item', {...item, id})
+		const newState = [...state, {...item, id}]
+		setState(newState)
 		setLoading(false)
 	}
 

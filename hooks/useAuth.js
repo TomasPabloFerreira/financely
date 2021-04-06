@@ -37,7 +37,6 @@ const useAuth = () => {
 			let userToken;
 			try {
 				userToken = await SecureStore.getItemAsync('userToken');
-				console.log(userToken)
 			} catch (e) {
 				console.log(e)
 			}
