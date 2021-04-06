@@ -1,0 +1,69 @@
+import { useEffect, useReducer, useMemo } from 'react'
+import * as SecureStore from 'expo-secure-store'
+
+const useAuth = () => {
+	const [state, dispatch] = useReducer(
+		(prevState, action) => {
+			switch (action.type) {
+				case 'RESTORE_TOKEN':
+					return {
+						...prevState,
+						userToken: action.token,
+						isLoading: false,
+					}
+				case 'SIGN_IN':
+					return {
+						...prevState,
+						isSignout: false,
+						userToken: action.token,
+					}
+				case 'SIGN_OUT':
+					return {
+						...prevState,
+						isSignout: true,
+						userToken: null,
+					}
+			}
+		},
+		{
+			isLoading: true,
+			isSignout: false,
+			userToken: null,
+		}
+	)
+
+	useEffect(() => {
+		const bootstrapAsync = async () => {
+			let userToken;
+			try {
+				userToken = await SecureStore.getItemAsync('userToken');
+				console.log(userToken)
+			} catch (e) {
+				console.log(e)
+			}
+			dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+		};
+		bootstrapAsync();
+	}, [])
+
+	const authContext = useMemo(
+		() => ({
+			signIn: async data => {
+				SecureStore.setItemAsync('userToken', data.token)
+				dispatch({ type: 'SIGN_IN', token: data.token })
+			},
+			signOut: () => {
+				SecureStore.deleteItemAsync('userToken')
+				dispatch({ type: 'SIGN_OUT' })
+			},
+			signUp: async data => {
+				dispatch({ type: 'SIGN_IN', token: data.token })
+			},
+		}),
+		[]
+	)
+
+	return { state, authContext }
+}
+
+export default useAuth

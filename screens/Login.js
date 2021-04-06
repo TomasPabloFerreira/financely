@@ -1,18 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Link, Button, TextInput } from '../components'
 import { useForm } from '../hooks'
 import { authService } from '../services'
+import { AuthContext } from '../contexts/AuthContext'
 
 const LogInScreen = ({ navigation }) => {
 
 	const [loading, setLoading] = useState(false)
+	const { signIn } = useContext(AuthContext)
 
 	const onSubmit = async values => {
 		setLoading(true)
 		try{
 			const response = await authService.login(values.email, values.password)
+			signIn(response)
 		} catch(e) {
 			console.log(e)
 		}
