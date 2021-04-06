@@ -37,6 +37,7 @@ export default Table
 
 const styles = StyleSheet.create({
 	table: {
+		flex: 1,
 		width: '100%'
 	},
 	header: {

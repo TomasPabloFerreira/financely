@@ -62,6 +62,7 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
 	background: {
+		backgroundColor: 'rgb(40,245,140)',
 		flex: 1,
 		display: 'flex',
 		flexDirection: 'column',
