@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link, Table } from '../components'
+import { Link, Table, Button } from '../components'
 import { AuthContext } from '../contexts/AuthContext'
 import { View, StyleSheet, Text } from 'react-native'
 
@@ -34,6 +34,9 @@ const HomeScreen = () => {
 		(acc, x) => acc + (x.type === 'Income' ? x.amount : (-x.amount) ),
 		0
 	)
+	const handleAdd = () => {
+		console.log('add')
+	}
 
 	return (
 		<View style={styles.background}>
@@ -41,6 +44,10 @@ const HomeScreen = () => {
 				<Link text="Log out" onPress={signOut} />
 			</View>
 			<Text style={styles.balanceText}>Balance: ${balance}</Text>
+			<View style={styles.info}>
+				<Text>Swipe right to see actions</Text>
+				<Button title="Create" onPress={handleAdd} />
+			</View>
 			<Table
 				columns={['Date', 'Type', 'Category', 'Amount']}
 				handleEdit={id => console.log('edit', id)}
@@ -72,5 +79,12 @@ const styles = StyleSheet.create({
 	balanceText: {
 		marginVertical: 40,
 		fontSize: 26
+	},
+	info: {
+		width: '90%',
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
 	}
 })
