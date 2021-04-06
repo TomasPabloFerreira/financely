@@ -5,7 +5,7 @@ const Button = ({ loading = false, ...props }) => {
 	return(
 		<View style={styles.buttonContainer}>
 			{ loading
-				? <ActivityIndicator />
+				? <ActivityIndicator color="#666" size="large" />
 				: <ButtonRN {...props} />
 			}
 		</View>
