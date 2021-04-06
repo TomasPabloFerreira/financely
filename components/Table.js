@@ -28,6 +28,7 @@ const Table = ({ columns, rows, handleRemove, handleEdit }) => {
 			<FlatList
 				data={rows}
 				renderItem={renderItem}
+				keyExtractor={x => String(x.id)}
 			/>
 		</View>
 	)
