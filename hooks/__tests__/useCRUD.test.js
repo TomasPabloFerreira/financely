@@ -45,4 +45,16 @@ describe('custom hook: useCRUD', () => {
 		props = getProps(wrapper, 'View')
 		expect(props.state).toEqual([])
 	})
+	it('edits element', async () => {
+		const wrapper = shallow(<Test hook={useCRUD}></Test>)
+		const { handleAdd } = getProps(wrapper, 'View')
+		await handleAdd(example)
+		let props = getProps(wrapper, 'View')
+		const edited = {
+			...props.state[0], amount: 225, date: new Date()
+		}
+		await props.handleEdit(edited)
+		props = getProps(wrapper, 'View')
+		expect(props.state).toEqual([edited])
+	})
 })
