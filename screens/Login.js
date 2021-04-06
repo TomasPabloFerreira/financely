@@ -2,20 +2,25 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Link, Button, TextInput } from '../components'
+import { useForm } from '../hooks'
+import { authService } from '../services'
 
 const LogInScreen = ({ navigation }) => {
 
 	const [loading, setLoading] = useState(false)
 
-	const submit = async () => {
+	const onSubmit = async values => {
 		setLoading(true)
 		try{
-			const response = await new Promise(r => setTimeout(r, 1000))
+			const response = await authService.login(values.email, values.password)
 		} catch(e) {
 			console.log(e)
 		}
 		setLoading(false)
 	}
+
+	const initialState = { email: '', password: '' }
+	const { subscribe, inputs, submit } = useForm(initialState, onSubmit)
 
 	return (
 		<LinearGradient
@@ -26,10 +31,14 @@ const LogInScreen = ({ navigation }) => {
 			<View style={styles.formContainer}>
 				<TextInput
 					placeholder="Email"
+					value={inputs.email}
+					onChangeText={subscribe('email')}
 				/>
 				<TextInput
 					placeholder="Password"
 					secureTextEntry={true}
+					value={inputs.password}
+					onChangeText={subscribe('password')}
 				/>
 				<Button title="Login" color="#266DD3" onPress={submit} loading={loading} />
 			</View>
