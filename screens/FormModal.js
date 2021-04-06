@@ -7,6 +7,17 @@ import NumericInput from 'react-native-numeric-input'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { useEffect } from 'react/cjs/react.development'
 
+const categoryOptions = [
+	{ key: 'Freelance', label: 'Freelance'},
+	{ key: 'Fees', label: 'Fees'},
+	{ key: 'Taxes', label: 'Taxes'},
+]
+
+const typeOptions = [
+	{ key: 'Outcome', label: 'Outcome'},
+	{ key: 'Income', label: 'Income'}
+]
+
 const FormModal = ({ formVisible, close, handleEdit, handleAdd, initialValue }) => {
 
 	const onSubmit = () => {
@@ -43,10 +54,7 @@ const FormModal = ({ formVisible, close, handleEdit, handleAdd, initialValue }) 
 					<View style={{ width: '100%'}}>
 						<ModalSelector
 							initValue="Type (*)"
-							data={[
-								{ key: 'Outcome', label: 'Outcome'},
-								{ key: 'Income', label: 'Income'}
-							]}
+							data={typeOptions}
 							onChange={subscribe('type')}
 						>
 							<View style={styles.selectorWrapper}>
@@ -59,11 +67,7 @@ const FormModal = ({ formVisible, close, handleEdit, handleAdd, initialValue }) 
 						</ModalSelector>
 						<ModalSelector
 							initValue="Category (*)"
-							data={[
-								{ key: 'Freelance', label: 'Freelance'},
-								{ key: 'Fees', label: 'Fees'},
-								{ key: 'Taxes', label: 'Taxes'},
-							]}
+							data={categoryOptions}
 							onChange={subscribe('category')}
 						>
 							<View style={styles.selectorWrapper}>
