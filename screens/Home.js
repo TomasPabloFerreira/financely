@@ -1,42 +1,33 @@
-import React, { useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link, Table, Button } from '../components'
 import { AuthContext } from '../contexts/AuthContext'
-import { View, StyleSheet, Text } from 'react-native'
-
-const rows = [
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 1 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 2 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 3 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 4 },
-	{ date: '2020-01-01', type: 'Outcome', category: 'Freelance', amount: 10000, id: 5 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 6 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 7 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 8 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 9 },
-	{ date: '2020-01-01', type: 'Outcome', category: 'Freelance', amount: 5, id: 10 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 11 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 12 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 13 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 14 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 15 },
-	{ date: '2020-01-01', type: 'Outcome', category: 'Freelance', amount: 10000, id: 16 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 17 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 18 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 19 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 20 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 21 },
-	{ date: '2020-01-01', type: 'Income', category: 'Freelance', amount: 10000, id: 22 },
-]
+import { View, StyleSheet, Text, ActivityIndicator } from 'react-native'
+import { transactionsService } from '../services'
 
 const HomeScreen = () => {
 	const { signOut } = useContext(AuthContext)
+	const [rows, setRows] = useState([])
+	const [loading, setLoading] = useState(true)
+
+	const handleAdd = () => {
+		console.log('add')
+	}
+
+	const fetchTransactions = async () => {
+		setLoading(true)
+		const { transactions } = await transactionsService.getTransactions()
+		setRows(transactions)
+		setLoading(false)
+	}
+
+	useEffect(() => {
+		fetchTransactions()
+	}, [])
+
 	const balance = rows.reduce(
 		(acc, x) => acc + (x.type === 'Income' ? x.amount : (-x.amount) ),
 		0
 	)
-	const handleAdd = () => {
-		console.log('add')
-	}
 
 	return (
 		<View style={styles.background}>
@@ -48,12 +39,15 @@ const HomeScreen = () => {
 				<Text>Swipe right to see actions</Text>
 				<Button title="Create" onPress={handleAdd} />
 			</View>
-			<Table
-				columns={['Date', 'Type', 'Category', 'Amount']}
-				handleEdit={id => console.log('edit', id)}
-				handleRemove={id => console.log('remove', id)}
-				rows={rows}
-			/>
+			{ loading
+			?	<ActivityIndicator color="#666" size="large" style={styles.loading} />
+			:	<Table
+					columns={['Date', 'Type', 'Category', 'Amount']}
+					handleEdit={id => console.log('edit', id)}
+					handleRemove={id => console.log('remove', id)}
+					rows={rows}
+				/>
+			}
 		</View>
 	)
 }
@@ -87,5 +81,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
+	},
+	loading: {
+		marginTop: '50%'
 	}
 })
