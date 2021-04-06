@@ -15,7 +15,6 @@ const useCRUD = (serviceGet, serviceAdd, serviceEdit, serviceRemove) => {
 		setLoading(true)
 		const result = await serviceAdd(item)
 		const id = Math.random()
-		console.log('new item', {...item, id})
 		const newState = [...state, {...item, id}]
 		setState(newState)
 		setLoading(false)
@@ -57,6 +56,7 @@ const useCRUD = (serviceGet, serviceAdd, serviceEdit, serviceRemove) => {
 	}
 
 	useEffect(() => {
+		console.log('effect')
 		fetchData()
 	}, [])
 
