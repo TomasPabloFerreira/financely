@@ -95,7 +95,7 @@ const FormModal = ({ formVisible, close, handleEdit, handleAdd, initialValue }) 
 					/>
 					<View style={styles.dateTimePickerContainer}>
 						<DateTimePicker
-							value={inputs.date}
+							value={inputs.date || new Date()}
 							style={styles.dateTimePicker}
 							mode="datetime"
 							onChange={(e, x) => subscribe('date')(x)}

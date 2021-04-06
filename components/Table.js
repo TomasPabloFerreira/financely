@@ -2,7 +2,7 @@ import React from 'react'
 import { View, FlatList, StyleSheet } from 'react-native'
 import { default as Row } from './TableRow'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
-import { LeftSwipeActions } from '.'
+import LeftSwipeActions from './LeftSwipeActions'
 
 const Table = ({ columns, rows, handleRemove, handleEdit }) => {
 	const renderItem = ({ item }) => {

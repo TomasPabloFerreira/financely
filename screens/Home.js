@@ -4,7 +4,7 @@ import { AuthContext } from '../contexts/AuthContext'
 import { View, StyleSheet, Text, ActivityIndicator, Modal } from 'react-native'
 import { transactionsService } from '../services'
 import { useCRUD } from '../hooks'
-import { FormModal } from '.'
+import FormModal from './FormModal'
 
 const HomeScreen = () => {
 	const { signOut } = useContext(AuthContext)
