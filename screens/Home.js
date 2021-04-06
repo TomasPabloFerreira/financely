@@ -3,26 +3,17 @@ import { Link, Table, Button } from '../components'
 import { AuthContext } from '../contexts/AuthContext'
 import { View, StyleSheet, Text, ActivityIndicator } from 'react-native'
 import { transactionsService } from '../services'
+import { useCRUD } from '../hooks'
 
 const HomeScreen = () => {
 	const { signOut } = useContext(AuthContext)
-	const [rows, setRows] = useState([])
-	const [loading, setLoading] = useState(true)
 
-	const handleAdd = () => {
-		console.log('add')
-	}
-
-	const fetchTransactions = async () => {
-		setLoading(true)
-		const { transactions } = await transactionsService.getTransactions()
-		setRows(transactions)
-		setLoading(false)
-	}
-
-	useEffect(() => {
-		fetchTransactions()
-	}, [])
+	const { handleAdd, handleEdit, handleRemove, loading, state: rows } = useCRUD(
+		transactionsService.getTransactions,
+		transactionsService.addTransaction,
+		transactionsService.editTransaction,
+		transactionsService.removeTransaction
+	)
 
 	const balance = rows.reduce(
 		(acc, x) => acc + (x.type === 'Income' ? x.amount : (-x.amount) ),
@@ -40,13 +31,17 @@ const HomeScreen = () => {
 				<Button title="Create" onPress={handleAdd} />
 			</View>
 			{ loading
-			?	<ActivityIndicator color="#666" size="large" style={styles.loading} />
-			:	<Table
-					columns={['Date', 'Type', 'Category', 'Amount']}
-					handleEdit={id => console.log('edit', id)}
-					handleRemove={id => console.log('remove', id)}
-					rows={rows}
-				/>
+				?	<ActivityIndicator
+						color="#666"
+						size="large"
+						style={styles.loading}
+					/>
+				:	<Table
+						columns={['Date', 'Type', 'Category', 'Amount']}
+						handleEdit={id => console.log('edit', id)}
+						handleRemove={handleRemove}
+						rows={rows}
+					/>
 			}
 		</View>
 	)

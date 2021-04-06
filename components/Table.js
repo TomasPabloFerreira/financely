@@ -11,7 +11,7 @@ const Table = ({ columns, rows, handleRemove, handleEdit }) => {
 				renderLeftActions={() =>
 					<LeftSwipeActions
 						handleRemove={() => handleRemove(item.id)}
-						handleEdit={() => handleEdit(item.id)}
+						handleEdit={() => handleEdit(item)}
 					/>
 				}
 			>

@@ -25,7 +25,16 @@ const transactions = [
 
 const transactionsService = {
 	getTransactions: async () => {
-		return new Promise(r => setTimeout(() => r({ transactions }), 1000))
+		return new Promise(r => setTimeout(() => r(transactions), 1000))
+	},
+	removeTransaction: async id => {
+		return new Promise(r => setTimeout(() => r(true), 1000))
+	},
+	editTransaction: async id => {
+		return new Promise(r => setTimeout(() => r(true), 1000))
+	},
+	addTransaction: async id => {
+		return new Promise(r => setTimeout(() => r(true), 1000))
 	}
 }
 
