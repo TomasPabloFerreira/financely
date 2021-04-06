@@ -8,7 +8,6 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import { useEffect } from 'react/cjs/react.development'
 
 const FormModal = ({ formVisible, close, handleEdit, handleAdd, initialValue }) => {
-	console.log('initial', initialValue)
 
 	const onSubmit = () => {
 		if(initialValue)
@@ -95,7 +94,7 @@ const FormModal = ({ formVisible, close, handleEdit, handleAdd, initialValue }) 
 							value={inputs.date}
 							style={styles.dateTimePicker}
 							mode="datetime"
-							onChangeText={subscribe('date')}
+							onChange={(e, x) => subscribe('date')(x)}
 						/>
 					</View>
 				</View>

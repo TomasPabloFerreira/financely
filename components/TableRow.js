@@ -2,12 +2,17 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
 const TableRow = ({ columns, header }) => {
+	const getValue = x => {
+		if(x.key) return x.key
+		if(typeof(x) == 'object') return new Date(x).toLocaleDateString()
+		return x
+	}
 	return (
 		<View style={styles.row}>
 			{columns.map((x, i) => (
 				<View style={styles.ceil} key={i}>
 					<Text style={header ? styles.headerText : {} }>
-						{ typeof(x) == 'object' ? new Date(x).toLocaleDateString() : x.key || x}
+						{getValue(x)}
 					</Text>
 				</View>
 			))}

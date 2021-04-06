@@ -22,6 +22,7 @@ const useCRUD = (serviceGet, serviceAdd, serviceEdit, serviceRemove) => {
 	}
 
 	const handleEdit = async(item) => {
+		console.log('edit', item)
 		setLoading(true)
 		const result = await serviceEdit(item)
 		const newState = state.map(x => x.id === item.id ? item : x)

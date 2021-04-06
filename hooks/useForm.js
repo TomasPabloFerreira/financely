@@ -5,6 +5,7 @@ const useForm = (initialState, onSubmit) => {
 	const [inputs, setInputs] = useState(initialState)
 
 	const subscribe = fieldName => value => {
+		console.log(value)
 		setInputs({ ...inputs, [fieldName]: value })
 	}
 
