@@ -10,6 +10,7 @@ const HomeScreen = () => {
 	const { signOut } = useContext(AuthContext)
 
 	const [formVisible, setFormVisible] = useState(false)
+	const [itemEditData, setItemEditData] = useState(null)
 
 	const { handleAdd, handleEdit, handleRemove, loading, state: rows } = useCRUD(
 		transactionsService.getTransactions,
@@ -17,6 +18,11 @@ const HomeScreen = () => {
 		transactionsService.editTransaction,
 		transactionsService.removeTransaction
 	)
+
+	const onEdit = item => {
+		setItemEditData(item)
+		setFormVisible(true)
+	}
 
 	const balance = rows.reduce(
 		(acc, x) => acc + (x.type.key === 'Income' ? x.amount : (-x.amount) ),
@@ -41,15 +47,17 @@ const HomeScreen = () => {
 					/>
 				:	<Table
 						columns={['Date', 'Type', 'Category', 'Amount']}
-						handleEdit={id => console.log('edit', id)}
+						handleEdit={onEdit}
 						handleRemove={handleRemove}
 						rows={rows}
 					/>
 			}
 			<FormModal
 				formVisible={formVisible}
-				close={() => {setFormVisible(false)}}
+				close={() => {setItemEditData(null); setFormVisible(false);}}
 				handleAdd={handleAdd}
+				handleEdit={handleEdit}
+				initialValue={itemEditData}
 			/>
 
 		</View>

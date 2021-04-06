@@ -13,7 +13,9 @@ const useForm = (initialState, onSubmit) => {
 		setInputs(initialState)
 	}
 
-	return { subscribe, inputs, submit  }
+	const reset = initial => { setInputs(initial) }
+
+	return { subscribe, inputs, submit, reset }
 }
 
 export default useForm

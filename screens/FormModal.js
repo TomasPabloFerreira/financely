@@ -5,17 +5,29 @@ import { useForm } from '../hooks'
 import ModalSelector from 'react-native-modal-selector'
 import NumericInput from 'react-native-numeric-input'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import { useEffect } from 'react/cjs/react.development'
 
-const FormModal = ({ formVisible, close, handleAdd }) => {
+const FormModal = ({ formVisible, close, handleEdit, handleAdd, initialValue }) => {
+	console.log('initial', initialValue)
+
 	const onSubmit = () => {
+		if(initialValue)
+			handleEdit(inputs)
+		else
+			handleAdd(inputs)
 		close()
-		handleAdd(inputs)
 	}
 
-	const initialState = { title: '', category: '', type: '', description: '', amount: 0, date: new Date() }
-	const { subscribe, inputs, submit } = useForm(initialState, onSubmit)
+	const initialState = initialValue || {
+		title: '', category: '', type: '', description: '', amount: 0, date: new Date()
+	}
+	const { subscribe, inputs, submit, reset } = useForm(initialState, onSubmit)
 
 	const allowAdd = inputs.title && inputs.type && inputs.category
+
+	useEffect(() => {
+		reset(initialState)
+	}, [formVisible])
 
 	return(
 		<Modal
@@ -76,6 +88,7 @@ const FormModal = ({ formVisible, close, handleAdd }) => {
 						rounded={true}
 						rightButtonBackgroundColor='rgb(40,245,140)'
 						leftButtonBackgroundColor='rgb(40,245,140)'
+						value={inputs.amount}
 					/>
 					<View style={styles.dateTimePickerContainer}>
 						<DateTimePicker
@@ -85,7 +98,6 @@ const FormModal = ({ formVisible, close, handleAdd }) => {
 							onChangeText={subscribe('date')}
 						/>
 					</View>
-
 				</View>
 				<View style={styles.buttons}>
 					<Button title="Cancel" onPress={close} />
