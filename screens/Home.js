@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link } from '../components'
+import { Link, Table } from '../components'
 import { AuthContext } from '../contexts/AuthContext'
 import { View, StyleSheet, Text } from 'react-native'
 
@@ -41,6 +41,12 @@ const HomeScreen = () => {
 				<Link text="Log out" onPress={signOut} />
 			</View>
 			<Text style={styles.balanceText}>Balance: ${balance}</Text>
+			<Table
+				columns={['Date', 'Type', 'Category', 'Amount']}
+				handleEdit={id => console.log('edit', id)}
+				handleRemove={id => console.log('remove', id)}
+				rows={rows}
+			/>
 		</View>
 	)
 }
@@ -64,7 +70,7 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-end'
 	},
 	balanceText: {
-		marginTop: 40,
+		marginVertical: 40,
 		fontSize: 26
 	}
 })

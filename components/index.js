@@ -1,3 +1,5 @@
 export { default as Link } from './Link'
 export { default as Button } from './Button'
 export { default as TextInput } from './TextInput'
+export { default as Table } from './Table'
+export { default as LeftSwipeActions } from './LeftSwipeActions'
