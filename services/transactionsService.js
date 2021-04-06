@@ -28,13 +28,13 @@ const transactionsService = {
 		return new Promise(r => setTimeout(() => r(transactions), 1000))
 	},
 	removeTransaction: async id => {
-		return new Promise(r => setTimeout(() => r(true), 1000))
+		return new Promise(r => setTimeout(() => r(true), 200))
 	},
 	editTransaction: async id => {
-		return new Promise(r => setTimeout(() => r(true), 1000))
+		return new Promise(r => setTimeout(() => r(true), 200))
 	},
 	addTransaction: async id => {
-		return new Promise(r => setTimeout(() => r(true), 1000))
+		return new Promise(r => setTimeout(() => r(true), 200))
 	}
 }
 

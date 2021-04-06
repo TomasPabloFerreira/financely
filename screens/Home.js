@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link, Table, Button } from '../components'
 import { AuthContext } from '../contexts/AuthContext'
-import { View, StyleSheet, Text, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, Text, ActivityIndicator, Modal } from 'react-native'
 import { transactionsService } from '../services'
 import { useCRUD } from '../hooks'
+import { FormModal } from '.'
 
 const HomeScreen = () => {
 	const { signOut } = useContext(AuthContext)
+
+	const [formVisible, setFormVisible] = useState(false)
 
 	const { handleAdd, handleEdit, handleRemove, loading, state: rows } = useCRUD(
 		transactionsService.getTransactions,
@@ -28,7 +31,7 @@ const HomeScreen = () => {
 			<Text style={styles.balanceText}>Balance: ${balance}</Text>
 			<View style={styles.info}>
 				<Text>Swipe right to see actions</Text>
-				<Button title="Create" onPress={handleAdd} />
+				<Button title="Create" onPress={() => setFormVisible(true)} />
 			</View>
 			{ loading
 				?	<ActivityIndicator
@@ -43,6 +46,12 @@ const HomeScreen = () => {
 						rows={rows}
 					/>
 			}
+			<FormModal
+				formVisible={formVisible}
+				close={() => {setFormVisible(false)}}
+				handleAdd={handleAdd}
+			/>
+
 		</View>
 	)
 }
