@@ -25,7 +25,6 @@ describe('custom hook: useForm', () => {
 		const { inputs } = getProps(wrapper, 'View')
 		expect(inputs.name).toEqual('steve')
 	})
-
 	it('submits correctly', () => {
 		const initialState = { name: 'steve', password: '1234' }
 		const onSubmit = jest.fn()
@@ -35,5 +34,16 @@ describe('custom hook: useForm', () => {
 		const { submit } = getProps(wrapper, 'View')
 		submit()
 		expect(onSubmit.mock.calls).toEqual([[{ name: 'steve', password: '1234' }]])
+	})
+	it('resets correctly', () => {
+		const initialState = { name: 'steve', password: '1234' }
+		const newState = { name: '', password: '' }
+		const wrapper = shallow(
+			<Test hook={() => useForm(initialState, () => {})} />
+		)
+		const { reset } = getProps(wrapper, 'View')
+		reset(newState)
+		const { inputs } = getProps(wrapper, 'View')
+		expect(inputs).toEqual(newState)
 	})
 })
