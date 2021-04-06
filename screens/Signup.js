@@ -6,6 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import { useForm } from '../hooks'
 import { AuthContext } from '../contexts/AuthContext'
 import { authService } from '../services'
+import * as ImagePicker from 'expo-image-picker';
 
 const SignUpScreen = ({ navigation }) => {
 
@@ -22,6 +23,17 @@ const SignUpScreen = ({ navigation }) => {
 		}
 		setLoading(false)
 	}
+	const pickImage = async () => {
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		})
+	
+		if (!result.cancelled)
+			setImage(result.uri)
+	}	
 
 	const initialState = {
 		email: '', password: '', fullName: '', birthDate: new Date()
@@ -60,6 +72,7 @@ const SignUpScreen = ({ navigation }) => {
 						onChange={(e, x) => subscribe('birthDate')(x)}
 					/>
 				</View>
+				<Button title="Upload profile image" onPress={pickImage} />
 				<Button title="Signup" color="#266DD3" onPress={submit} loading={loading} />
 			</View>
 
